@@ -19,8 +19,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
@@ -181,13 +179,14 @@ public class SGUI extends JFrame {
 	void Hide(){
 		int count=0;
 		int k=0;
-		byte [] barry=txtrYfytc.getText().getBytes();
-		
+		//byte [] barry=txtrYfytc.getText().getBytes();
+		//System.out.println(txtrYfytc.getText());
+		byte [] barry=Masking.encrypt(txtrYfytc.getText()).getBytes();
 		byte [] bit=new byte[barry.length*8];
 		int LEN=bit.length;
 		for(byte b:barry){
-			// System.out.print(b);
-			// System.out.print("\t");
+			 //System.out.print(b);
+			 //System.out.print("\t");
 			bit[k]=(byte)(b&0b1);k++;
 			bit[k]=(byte)((b>>1)&0b1);k++;
 			bit[k]=(byte)((b>>2)&0b1);k++;
@@ -200,7 +199,7 @@ public class SGUI extends JFrame {
 		
 		k=0;
 		int p,a,r,g,b;
-	//	System.out.println("LEN at writing "+LEN);
+		//System.out.println("LEN at writing "+LEN);
 		outer:
 		for(int i=0;i<img.getHeight();i++){
 			for(int j=0;j<img.getWidth();j++){
@@ -279,10 +278,12 @@ public class SGUI extends JFrame {
 				}
 				
 			}
+			//System.out.println();
 		}
 		
 		//System.out.println("\nLEN at reading "+LEN);
-		JOptionPane.showMessageDialog(null, ssttrr);
+		//System.out.println(ssttrr);
+		JOptionPane.showMessageDialog(null,Masking.decrypt(ssttrr));
 		ssttrr.delete(0,ssttrr.length());
 	}
 	
